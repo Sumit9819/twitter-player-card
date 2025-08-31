@@ -13,7 +13,15 @@ export default function handler(request, response) {
   // Set content type
   response.setHeader('Content-Type', 'text/html; charset=utf-8');
   
-  // Get query parameters
+  // Get query parameters (works for both GET and POST)
+  let queryParams = {};
+  
+  if (request.method === 'GET') {
+    queryParams = request.query;
+  } else if (request.method === 'POST') {
+    queryParams = request.body || request.query;
+  }
+  
   const {
     url: videoUrl,
     title = 'Video Content',
@@ -22,11 +30,27 @@ export default function handler(request, response) {
     width = '640',
     height = '360',
     username = '@yourusername'
-  } = request.query;
+  } = queryParams;
+  
+  console.log('Received parameters:', queryParams); // Debug log
   
   // Validate required parameters
   if (!videoUrl) {
-    response.status(400).send('Missing required parameter: url');
+    response.status(400).send(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Error - Missing URL</title>
+      </head>
+      <body>
+        <h1>Error: Missing required parameter</h1>
+        <p>Required parameter 'url' is missing.</p>
+        <p>Received parameters: ${JSON.stringify(queryParams)}</p>
+        <a href="/">Go back to form</a>
+      </body>
+      </html>
+    `);
     return;
   }
   
