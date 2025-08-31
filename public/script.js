@@ -33,44 +33,29 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Copy URL functionality
-    copyBtn.addEventListener('click', function() {
+    copyBtn.addEventListener('click', async function() {
         const text = generatedUrl.textContent;
-        navigator.clipboard.writeText(text).then(function() {
+        try {
+            await navigator.clipboard.writeText(text);
             const originalText = copyBtn.textContent;
             copyBtn.textContent = 'Copied!';
             setTimeout(() => {
                 copyBtn.textContent = originalText;
             }, 2000);
-        });
-    });
-    
-    // Auto-detect common video platforms and set appropriate dimensions
-    const videoUrlInput = document.getElementById('videoUrl');
-    videoUrlInput.addEventListener('blur', function() {
-        const url = this.value.trim();
-        if (!url) return;
-        
-        const widthInput = document.getElementById('width');
-        const heightInput = document.getElementById('height');
-        const titleInput = document.getElementById('title');
-        
-        // YouTube detection
-        if (url.includes('youtube.com') || url.includes('youtu.be')) {
-            widthInput.value = '640';
-            heightInput.value = '360';
-            if (!titleInput.value) titleInput.value = 'YouTube Video';
-        }
-        // Vimeo detection
-        else if (url.includes('vimeo.com')) {
-            widthInput.value = '640';
-            heightInput.value = '360';
-            if (!titleInput.value) titleInput.value = 'Vimeo Video';
-        }
-        // TikTok detection
-        else if (url.includes('tiktok.com')) {
-            widthInput.value = '320';
-            heightInput.value = '568';
-            if (!titleInput.value) titleInput.value = 'TikTok Video';
+        } catch (err) {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = 'Copied!';
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+            }, 2000);
         }
     });
 });
