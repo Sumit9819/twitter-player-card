@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <label for="videoUrl">Video URL *</label>
                     <input type="url" id="videoUrl" name="videoUrl" required placeholder="https://youtube.com/embed/...">
-                    <small>Must be an embeddable URL (YouTube embed, Vimeo, etc.)</small>
+                    <small>Must be an embeddable URL (YouTube embed, Vimeo player, etc.)</small>
                 </div>
                 
                 <div class="form-group">
@@ -29,12 +29,6 @@
                 <div class="form-group">
                     <label for="description">Description</label>
                     <textarea id="description" name="description" placeholder="Video description..."></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="image">Preview Image URL (optional)</label>
-                    <input type="url" id="image" name="image" placeholder="https://example.com/image.jpg">
-                    <small>If empty, a placeholder will be generated</small>
                 </div>
                 
                 <div class="form-row">
@@ -58,11 +52,11 @@
             </form>
             
             <div id="result" class="result-section" style="display: none;">
-                <h2>Your Player Card</h2>
-                <p>Use this URL to share on Twitter:</p>
+                <h2>Your Player Card URL</h2>
+                <p>Copy this URL and paste it on Twitter:</p>
                 <div class="url-display">
                     <code id="generatedUrl"></code>
-                    <button id="copyBtn" class="copy-btn">Copy URL</button>
+                    <button id="copyBtn" class="copy-btn">Copy</button>
                 </div>
                 
                 <div class="preview-container">
@@ -76,7 +70,7 @@
                         <li>Copy the URL above</li>
                         <li>Paste it into a Twitter post</li>
                         <li>Twitter will automatically generate a player card</li>
-                        <li>For first use, Twitter may need to <a href="https://cards-dev.twitter.com/validator" target="_blank">validate your card</a></li>
+                        <li>For first use, you may need to <a href="https://cards-dev.twitter.com/validator" target="_blank">validate your card</a></li>
                     </ol>
                 </div>
             </div>
