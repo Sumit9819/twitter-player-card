@@ -1,12 +1,4 @@
 {
   "name": "twitter-card-generator",
-  "version": "1.0.0",
-  "description": "Generate Twitter Player Cards",
-  "scripts": {
-    "dev": "vercel dev",
-    "build": "echo 'Build completed'"
-  },
-  "dependencies": {
-    "express": "^4.18.2"
-  }
+  "version": "1.0.0"
 }
