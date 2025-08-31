@@ -14,14 +14,22 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add all form fields to params
         for (let [key, value] of formData.entries()) {
-            if (value.trim()) {
+            if (value && value.trim()) {
                 params.append(key, value.trim());
             }
         }
         
-        // Generate the URL
+        // Generate the URL - make sure we have a URL parameter
+        const videoUrl = document.getElementById('videoUrl').value.trim();
+        if (!videoUrl) {
+            alert('Please enter a video URL');
+            return;
+        }
+        
         const baseUrl = window.location.origin;
         const apiUrl = `${baseUrl}/api/generate?${params.toString()}`;
+        
+        console.log('Generated URL:', apiUrl); // Debug log
         
         // Display result
         generatedUrl.textContent = apiUrl;
@@ -58,4 +66,36 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 2000);
         }
     });
+    
+    // Auto-detect common video platforms and set appropriate dimensions
+    const videoUrlInput = document.getElementById('videoUrl');
+    if (videoUrlInput) {
+        videoUrlInput.addEventListener('blur', function() {
+            const url = this.value.trim();
+            if (!url) return;
+            
+            const widthInput = document.getElementById('width');
+            const heightInput = document.getElementById('height');
+            const titleInput = document.getElementById('title');
+            
+            // YouTube detection
+            if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                if (widthInput) widthInput.value = '640';
+                if (heightInput) heightInput.value = '360';
+                if (titleInput && !titleInput.value) titleInput.value = 'YouTube Video';
+            }
+            // Vimeo detection
+            else if (url.includes('vimeo.com')) {
+                if (widthInput) widthInput.value = '640';
+                if (heightInput) heightInput.value = '360';
+                if (titleInput && !titleInput.value) titleInput.value = 'Vimeo Video';
+            }
+            // TikTok detection
+            else if (url.includes('tiktok.com')) {
+                if (widthInput) widthInput.value = '320';
+                if (heightInput) heightInput.value = '568';
+                if (titleInput && !titleInput.value) titleInput.value = 'TikTok Video';
+            }
+        });
+    }
 });
